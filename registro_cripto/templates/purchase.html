@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Alta de Ingreso-Gasto</h1>
+<article>
+    <form action="/new" method="post">
+            {{ el_formulario.csrf_token }}
+
+            {{ el_formulario.date.label }}
+            {{ el_formulario.date }}
+            {% if el_formulario.date.errors %}
+                {% for error in el_formulario.date.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+
+            {{ el_formulario.concept.label }}
+            {{ el_formulario.concept(placeholder="Introduce en que te has gastado la pasta") }}    
+            {% if el_formulario.concept.errors %}
+                {% for error in el_formulario.concept.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+
+            {{ el_formulario.quantity.label }}
+            {{ el_formulario.quantity(class="elEnric", placeholder="Euros gastados o ingresados") }}    
+            {% if el_formulario.quantity.errors %}
+                {% for error in el_formulario.quantity.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+    
+            {{ el_formulario.submit }}
+    
+    </form>
+</article>
+
+{% endblock %}

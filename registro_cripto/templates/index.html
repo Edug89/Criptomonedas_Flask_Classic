@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>TABLA DE MOVIMIENTOS</h2>
+        <table>
+            <thead>
+               <tr>
+                    <th>Fecha</th> 
+                    <th>Hora</th>
+                    <th>Moneda_From</th>
+                    <th>Cantidad_From</th>
+                    <th>Moneda_To</th>
+                    <th>Cantidad_To</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2022-11-10</td>
+                    <td>11:27:30.001</td>
+                    <td>EUR</td>
+                    <td>10000</td>
+                    <td>BTC</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
+{% endblock %}
