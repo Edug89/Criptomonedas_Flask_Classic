@@ -20,22 +20,32 @@
                 <a href="/">Inicio</a>
             </li>
             <li>
-                <a href="/new">Compra</a>
+                <a href="/purchase">Compra</a>
             </li>
             <li>
-                <a href="/new">Estado</a>
+                <a href="/status">Estado</a>
             </li>
         </ul>
     </nav>
     <section class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}    
+        <article class="messages">
+            {% for msg in messages %}
+            <p class="error">{{ msg }}</p>
+            {% endfor%}
+        </article>
+        {% endif %}
+        {% endwith %}
+
        {% block content %}{% endblock %}
     </section>
         <section class="container">
-        <a href="/new">Añadir</a>
+        <a href="/purchase">Añadir</a>
         </section>
     <footer>
         <div class="container">
-            &copy; 2022 - EMP (Todos los derechos reservados)
+            &copy; 2022 - EMP(Todos los derechos reservados)
         </div>
     </footer>
 </body>

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h1>Alta de Ingreso-Gasto</h1>
+<h1>MOVIMIENTOS</h1>
 <article>
-    <form action="/new" method="post">
+    <form action="/purchase" method="post">
             {{ el_formulario.csrf_token }}
 
             {{ el_formulario.date.label }}

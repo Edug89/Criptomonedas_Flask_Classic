@@ -14,14 +14,17 @@
                 </tr>
             </thead>
             <tbody>
+                <!--Este for no aplica actualmente pero no da fallo grave-->
+                {% for movement in data %}
                 <tr>
-                    <td>2022-11-10</td>
-                    <td>11:27:30.001</td>
-                    <td>EUR</td>
-                    <td>10000</td>
-                    <td>BTC</td>
-                    <td>1</td>
+                    <td>{{movement.date}}</td>
+                    <td>{{movement.time}}</td>
+                    <td>{{movement.coin_from}}</td>
+                    <td>{{movement.quantity_from}}</td>
+                    <td>{{movement.coin_to}}</td>
+                    <td>{{movement.quantity_to}}</td>
                 </tr>
+                {% endfor %} 
             </tbody>
         </table>
 {% endblock %}

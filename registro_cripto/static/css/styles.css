@@ -4,3 +4,27 @@ header, footer {
     font-size: 1.4em;
     font-weight: bold;
 }
+
+body {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 50px 1fr auto;
+    margin: 0;
+}
+
+p.error {
+    color: red;
+    font-weight: bold;
+    font-size: 0,8em;
+
+}
+
+.number {
+    text-align: right;
+}
+
+.return {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
