@@ -1,3 +1,4 @@
+from crypt import methods
 from registro_cripto import app
 from flask import render_template,request, redirect, url_for, flash
 from registro_cripto.models import select_all,insert,select_by,delete_by
@@ -10,10 +11,14 @@ from datetime import date
 def index():
     return render_template("index.html", pageTitle="Movimientos")
 
-app.route("/purchase")
+
+@app.route("/purchase", methods =["GET","POST"])
 def purchase():
-    return render_template("purchase.html", pageTitle= "Compra")
-   
+    if request.method == "GET":        
+        compra_de_criptos = MovementForm()        
+        return render_template("purchase.html", form=compra_de_criptos)    
+    else:
+        pass
 
 
 @app.route("/status")

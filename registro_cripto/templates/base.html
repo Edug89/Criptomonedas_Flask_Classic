@@ -17,16 +17,17 @@
     <nav class="container">
         <ul>
             <li>
-                <a href="/">Inicio</a>
+                <a href="/">Inicio</a> /
             </li>
             <li>
-                <a href="/purchase">Compra</a>
+                <a href="/purchase">Compra</a> /
             </li>
             <li>
                 <a href="/status">Estado</a>
             </li>
         </ul>
     </nav>
+
     <section class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}    
@@ -41,7 +42,7 @@
        {% block content %}{% endblock %}
     </section>
         <section class="container">
-        <a href="/purchase">Añadir</a>
+        <a href="/status">Status</a>
         </section>
     <footer>
         <div class="container">

@@ -19,6 +19,7 @@ p.error {
 
 }
 
+
 .number {
     text-align: right;
 }
@@ -28,3 +29,38 @@ p.error {
     width: 100%;
     text-align: center;
 }
+
+.grid {
+    display: flex;
+    justify-content:space-around
+    
+    width: 100px;
+    padding: 0 1rem;
+    max-width: 800px;
+    gap: 15em;
+    
+  }
+  
+  .coin_from {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    height: 100%;
+  
+  }
+  
+  .coin_to {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    height: 100%;
+  }
+  
+  .quantity_from {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    height: 100%;
+  }  
+
+  

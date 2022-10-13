@@ -1,38 +1,52 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>MOVIMIENTOS</h1>
+
 <article>
-    <form action="/purchase" method="post">
-            {{ el_formulario.csrf_token }}
+    <table>
+    <h2>COMPRA DE CRIPTOS</h2>
+    <form action="/new" method="post">
+            {{ form.csrf_token }}
 
-            {{ el_formulario.date.label }}
-            {{ el_formulario.date }}
-            {% if el_formulario.date.errors %}
-                {% for error in el_formulario.date.errors %}
+        <div class="grid">
+            <div class="coin_from">
+            {{ form.coin_from.label }}
+            {{ form.coin_from }}        
+            {% if form.coin_from.errors %}
+                {% for error in form.coin_from.errors %}
                     <p class="error">{{ error }}</p>
                 {% endfor %}
             {% endif %}
-
-            {{ el_formulario.concept.label }}
-            {{ el_formulario.concept(placeholder="Introduce en que te has gastado la pasta") }}    
-            {% if el_formulario.concept.errors %}
-                {% for error in el_formulario.concept.errors %}
+            </div>
+            
+            <div class="coin_to">
+            {{ form.coin_to.label }}
+            {{ form.coin_to }}
+            {% if form.coin_to.errors %}
+                {% for error in form.coin_from.errors %}
                     <p class="error">{{ error }}</p>
                 {% endfor %}
             {% endif %}
+            </div>
+        </div>
 
-            {{ el_formulario.quantity.label }}
-            {{ el_formulario.quantity(class="elEnric", placeholder="Euros gastados o ingresados") }}    
-            {% if el_formulario.quantity.errors %}
-                {% for error in el_formulario.quantity.errors %}
+        <div class="grid"> 
+            <div class="quantity_from">
+            {{ form.quantity_from.label }}
+            {{ form.quantity_from }}
+            {% if form.quantity_from.errors %}
+                {% for error in form.quantity_from.errors %}
                     <p class="error">{{ error }}</p>
                 {% endfor %}
             {% endif %}
-    
-            {{ el_formulario.submit }}
-    
+            </div> 
+        </div>
+            
+            <div class="boton-calcular">
+            {{ form.calcular }}
+            </div>
     </form>
+    </table>
 </article>
 
 {% endblock %}
