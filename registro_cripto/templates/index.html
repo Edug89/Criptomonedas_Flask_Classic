@@ -1,16 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>TABLA DE MOVIMIENTOS</h2>
         <table>
+            <div class = "h2">
+                <h2>MOVIMIENTOS</h2>
+            </div>
             <thead>
                <tr>
                     <th>Fecha</th> 
                     <th>Hora</th>
-                    <th>Moneda_From</th>
-                    <th>Cantidad_From</th>
-                    <th>Moneda_To</th>
-                    <th>Cantidad_To</th>
+                    <th>From</th>
+                    <th>Q</th>
+                    <th>To</th>
+                    <th>Q<th>
+                    <th>P.U</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +27,13 @@
                     <td>{{movement.quantity_from}}</td>
                     <td>{{movement.coin_to}}</td>
                     <td>{{movement.quantity_to}}</td>
+                    <td>{{movement.quantity_from / movement.quantity_to}}</td>
+
                 </tr>
                 {% endfor %} 
             </tbody>
         </table>
+        <a href="/status"><button class="boton_status"method="POST">Status</button></a>
+        <a href="/purchase"><button class="cruz_añadir" method="POST">+</button></a>  
+
 {% endblock %}

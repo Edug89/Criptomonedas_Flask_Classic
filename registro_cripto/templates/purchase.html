@@ -4,7 +4,9 @@
 
 <article>
     <table>
+    <div class = "h2">    
     <h2>COMPRA DE CRIPTOS</h2>
+    </div>
     <form action="/new" method="post">
             {{ form.csrf_token }}
 
@@ -40,11 +42,30 @@
                 {% endfor %}
             {% endif %}
             </div> 
-        </div>
-            
-            <div class="boton-calcular">
-            {{ form.calcular }}
+        
+            <div class="boton-consultar">
+                {{ form.consultar}}
+                </div>
+
+
+            <div class="quantity_to">
+                <label for="cantidad_to">Q: </label>
+                <p class="paper-label"> {{ cantidad_to }}</p>
             </div>
+        </div>
+
+        
+        <div class="grid">
+            <div class="pu">
+            <label for="precio_unitario">P.U: </label>
+            <p class="paper-label"> {{ PU }}</p>
+            
+            </div>
+
+
+        <a href="/"><button class="boton_cancelar"method="POST">X</button></a>
+        <a href="/"><button class="boton_validar" method="POST">V</button></a> 
+                
     </form>
     </table>
 </article>

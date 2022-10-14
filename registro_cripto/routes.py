@@ -1,15 +1,22 @@
-from crypt import methods
 from registro_cripto import app
 from flask import render_template,request, redirect, url_for, flash
 from registro_cripto.models import select_all,insert,select_by,delete_by
 from registro_cripto.forms import MovementForm
 from datetime import date
 
-
+#ruta = ORIGIN_DATA
 
 @app.route("/")
 def index():
-    return render_template("index.html", pageTitle="Movimientos")
+    try:
+        movimientos = select_all("SELECT * FROM movimientos ORDER BY date")
+        return render_template("inicio.html",pageTitle = "Índice", movs=movimientos)
+    except:
+        flash("No hay movimientos por el momento.",
+              category="fallo")
+        return render_template("index.html")
+
+
 
 
 @app.route("/purchase", methods =["GET","POST"])
@@ -21,9 +28,11 @@ def purchase():
         pass
 
 
+
+
 @app.route("/status")
 def status():
-    return "En construcción"
+    return render_template("status.html")
 
 
  #Pruebas de funciones comparativas para añadir.

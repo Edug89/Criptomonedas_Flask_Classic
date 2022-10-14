@@ -16,7 +16,10 @@ p.error {
     color: red;
     font-weight: bold;
     font-size: 0,8em;
+}
 
+.h2 {
+    text-align: center;
 }
 
 
@@ -32,15 +35,14 @@ p.error {
 
 .grid {
     display: flex;
-    justify-content:space-around
-    
+    justify-content:space-between
     width: 100px;
     padding: 0 1rem;
     max-width: 800px;
     gap: 15em;
     
   }
-  
+
   .coin_from {
     display: flex;
     justify-content: space-between;
@@ -63,4 +65,83 @@ p.error {
     height: 100%;
   }  
 
+  .quantity_to {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    height: 100%;
+    margin-left: -340px;
+  }
+
+  .pu {
+    display:flex;
+    text-align: right;
+    height: 100%;
+    justify-content: end;
+    gap: 10px;
+    margin-left: 570px;
+    margin-top: 15px;
   
+  }
+
+
+.boton_status {
+    display: inline-block;
+    height: 45px;
+    padding: 0;
+    vertical-align: top;
+    width: 100px;
+}
+
+.cruz_añadir {
+  display: inline-block;
+  height: 45px;
+  padding: 0;
+  margin-right: 0;
+  float: right;
+  width: 100px;
+}
+
+.boton_cancelar {
+  display: inline-block;
+  height: 45px;
+  padding: 0;
+  vertical-align: top;
+  width: 100px;
+  margin-left: -300;
+  margin-top: 100;
+
+}
+
+.boton_validar {
+display: inline-block;
+height: 45px;
+padding: 0;
+margin-right: 0;
+width: 100px;
+margin-left: -450;
+margin-top: 100;
+
+}
+
+
+.boton_volver {
+  display: inline-block;
+  height: 45px;
+  padding: 0;
+  margin-right: 0;
+  width: 100px;
+  margin-left: 350;
+  margin-top: 50;
+  
+  }
+
+.status {
+  display: block;
+  max-width: 500px;
+  font-weight:lighter;
+  font-size: 1.0rem;
+  padding: 1.0rem;
+  margin-left: 150;
+  
+}

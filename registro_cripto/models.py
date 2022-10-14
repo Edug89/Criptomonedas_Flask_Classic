@@ -1,7 +1,7 @@
 import sqlite3
 from config import ORIGIN_DATA
 
-#Está todas las funciones del copipaste pero falta filtrar
+#Está todas las funciones del copipaste pero falta filtrar y modificar
 
 def filas_to_diccionario(filas, columnas):
     resultado = []
@@ -13,26 +13,21 @@ def filas_to_diccionario(filas, columnas):
             posicion_columna += 1
         resultado.append(d)
 
-    """
-    Comento esto porque me lo ha pedido Cristian
-
-    for fila in filas:
-        d = {}
-        for posicion, campo in enumerate(columnas):
-            d[campo[0]] = fila[posicion]
-        resultado.append(d)
-    """
-
     return resultado
-
-def delete_by(id):
+#Consulta de movimientos
+def select_all():
     conn = sqlite3.connect(ORIGIN_DATA)
     cur = conn.cursor()
 
-    cur.execute("DELETE FROM movements WHERE id = ?", (id,))
+    cur.execute("SELECT id, date, time, quantity_from, coin_to, quantity_to from movements order by date;")
 
-    conn.commit()
+    resultado = filas_to_diccionario(cur.fetchall(), cur.description)
+
     conn.close()
+
+    return resultado
+
+
 
 def select_by(id):
     conn = sqlite3.connect(ORIGIN_DATA)
@@ -50,17 +45,8 @@ def select_by(id):
 
 
 
-def select_all():
-    conn = sqlite3.connect(ORIGIN_DATA)
-    cur = conn.cursor()
 
-    cur.execute("SELECT id, date, time, quantity_from, coin_to, quantity_to from movements order by date;")
 
-    resultado = filas_to_diccionario(cur.fetchall(), cur.description)
-
-    conn.close()
-
-    return resultado
 
 def insert(registro):
     """
@@ -74,5 +60,14 @@ def insert(registro):
     cur = conn.cursor()
 
     cur.execute("INSERT INTO movements (date, concept, quantity) values (?, ?, ?);", registro)
+    conn.commit()
+    conn.close()
+
+def delete_by(id):
+    conn = sqlite3.connect(ORIGIN_DATA)
+    cur = conn.cursor()
+
+    cur.execute("DELETE FROM movements WHERE id = ?", (id,))
+
     conn.commit()
     conn.close()
