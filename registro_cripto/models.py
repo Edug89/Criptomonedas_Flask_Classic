@@ -45,9 +45,6 @@ def select_by(id):
 
 
 
-
-
-
 def insert(registro):
     """
     INSERT INTO movements (date, concept, quantity) values (?, ?, ?)

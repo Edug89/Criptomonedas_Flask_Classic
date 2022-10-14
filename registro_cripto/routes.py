@@ -4,7 +4,6 @@ from registro_cripto.models import select_all,insert,select_by,delete_by
 from registro_cripto.forms import MovementForm
 from datetime import date
 
-#ruta = ORIGIN_DATA
 
 @app.route("/")
 def index():
@@ -18,12 +17,11 @@ def index():
 
 
 
-
 @app.route("/purchase", methods =["GET","POST"])
 def purchase():
     if request.method == "GET":        
         compra_de_criptos = MovementForm()        
-        return render_template("purchase.html", form=compra_de_criptos)    
+        return render_template("purchase.html", pageTitle = "Status", form=compra_de_criptos)    
     else:
         pass
 

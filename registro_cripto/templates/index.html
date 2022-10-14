@@ -19,6 +19,7 @@
             </thead>
             <tbody>
                 <!--Este for no aplica actualmente pero no da fallo grave-->
+            
                 {% for movement in data %}
                 <tr>
                     <td>{{movement.date}}</td>
@@ -27,8 +28,8 @@
                     <td>{{movement.quantity_from}}</td>
                     <td>{{movement.coin_to}}</td>
                     <td>{{movement.quantity_to}}</td>
-                    <td>{{movement.quantity_from / movement.quantity_to}}</td>
-
+                    <td>{{movement.PU}}</td>
+                <!--Faltaría poner 8 decimales al quantity to y al PU-->
                 </tr>
                 {% endfor %} 
             </tbody>

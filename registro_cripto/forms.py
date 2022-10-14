@@ -1,32 +1,24 @@
 from flask_wtf import FlaskForm
-from wtforms import DateField,StringField, FloatField, SubmitField,TimeField
-from wtforms.validators import DataRequired, Length
+from wtforms import DateField,StringField, FloatField, SubmitField,TimeField,HiddenField
+from wtforms.validators import DataRequired,ValidationError
+
+def validar_moneda(form,field):
+    if field.data == form.moneda_from.data:
+        raise ValidationError("Debes elegir diferentes tipos de moneda")
 
 class MovementForm(FlaskForm):
-    date = DateField("Fecha",validators=[DataRequired()])
-    time = TimeField("Hora",validators=[DataRequired()])
-    coin_from = StringField("From",validators=[DataRequired()])
-    quantity_from = FloatField("Q",validators=[DataRequired()])
-    coin_to = StringField("To",validators=[DataRequired()])
+    id = HiddenField()
+    date = DateField("Fecha")
+    time = TimeField("Hora")
+    coin_from = StringField("From",choices=[
+        ("EUR", "EUR"), ("BTC", "BTC"), ("ETH", "ETH"), ("LUNA", "LUNA"), ("LINK", "LINK")], validators=[DataRequired()])
+    coin_to = StringField("To", choices=[
+        ("EUR", "EUR"), ("BTC", "BTC"), ("ETH", "ETH"), ("LUNA", "LUNA"), ("LINK", "LINK")], validators=[DataRequired(), validar_moneda])
+    
     quantity_to = FloatField("Cantidad_To",validators=[DataRequired()])
+    quantity_from = FloatField("Q",validators=[DataRequired()])
 
     borrar = SubmitField("X")
     aceptar = SubmitField("√")
 
-
-#Falta hacer bien la clase y enlazar.
-
-Coins=[('EUR', 'Euro (€)'), 
-        ('BTC', 'Bitcoin (BTC)'), 
-        ('ETH', 'Ethereum (ETH)'), 
-        ('XRP', 'Ripple (XRP)'), 
-        ('LTC', 'Litecoin (LTC)'),
-        ('BCH', 'Bitcoin Cash (BCH)'), 
-        ('BNB', 'Binance (BNB)'), 
-        ('USDT', 'Tether (USDT)'), 
-        ('EOS', 'EOS (EOS)'), 
-        ('BCHSV', 'Bitcoin Cash SV (BCHSV)'), 
-        ('XLM', 'Stellar Lumens (XLM)'), 
-        ('ADA', 'Cardano (ADA)'), 
-        ('TRX', 'Tronix (TRX)') 
-]
+    
