@@ -25,7 +25,7 @@
             {{ form.moneda_to.label }}
             {{ form.moneda_to }}
             {% if form.moneda_to.errors %}
-                {% for error in form.moneda_from.errors %}
+                {% for error in form.moneda_to.errors %}
                     <p class="error">{{ error }}</p>
                 {% endfor %}
             {% endif %}
@@ -49,7 +49,7 @@
                 <p class="paper-label"> {{ cantidad_to }}</p>
             </div>
         </div>
-        
+
         <div class="boton-consultar">
             {{ form.consultar}}
             </div>
@@ -68,8 +68,6 @@
         <div class="boton-comprar">
             {{ form.aceptar }}
             </div>
-        
-
      
     </form>
     </table>

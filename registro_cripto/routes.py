@@ -1,6 +1,6 @@
 from registro_cripto import app
 from flask import render_template,request, redirect, url_for, flash
-from registro_cripto.models import CriptoModel,SqliteManager,APIError
+from registro_cripto.models import CriptoExchange,SqliteManager,APIError
 from registro_cripto.forms import MovementForm
 from datetime import date,datetime
 
@@ -33,12 +33,16 @@ def purchase():
             cantidad_from = form.cantidad_from.data
             cantidad_from = float(round(cantidad_from, 8))
 
-            convertir = CriptoModel(moneda_from, moneda_to)
+            convertir = CriptoExchange(moneda_from, moneda_to)
             PU = convertir.consultar_cambio()
             PU = float(round(PU, 8))
             cantidad_to = cantidad_from * PU
             cantidad_to = float(round(cantidad_to, 8))
 
+            saldo = SqliteManager(RUTA).calcular_saldo(moneda_from)
+            if moneda_from != 'EUR' and saldo < float(cantidad_from):
+                flash("No tienes suficientes monedas {} ".format(moneda_from))
+                return render_template("purchase.html", form=form)
             
             if form.consultar.data:
                 return render_template("purchase.html", form=form, cantidad_to=cantidad_to, PU=PU)

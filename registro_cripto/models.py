@@ -2,7 +2,6 @@ import sqlite3
 import requests
 from config import API_KEY
 
-#Está todas las funciones del copipaste pero falta filtrar y modificar
 
 class SqliteManager:
     def __init__(self, ruta):
@@ -64,6 +63,21 @@ class SqliteManager:
         conexion.close()
         return datos
 
+    def calcular_saldo(self, moneda):
+        consulta_compras = "SELECT sum(cantidad_to) FROM movimientos WHERE moneda_to = '" + \
+            moneda + "'"
+        consulta_ventas = "SELECT sum(cantidad_from) FROM movimientos WHERE moneda_from = '" + \
+            moneda + "'"
+
+        datos_compras = self.consultar_saldo(consulta_compras)
+        datos_ventas = self.consultar_saldo(consulta_ventas)
+        if datos_ventas[0] == None and datos_compras[0] == None:
+            return 0
+        elif datos_ventas[0] == None:
+            return datos_compras[0]
+        else:
+            return datos_compras[0] - datos_ventas[0]
+
 
 class APIError(Exception):
     def __init__(self, code):
@@ -82,7 +96,7 @@ class APIError(Exception):
         super().__init__(msg)
 
 
-class CriptoModel:
+class CriptoExchange:
 
     def __init__(self, origen, destino):
         self.moneda_origen = origen
