@@ -19,7 +19,7 @@ def index():
 
 
 @app.route("/purchase", methods=["GET", "POST"])
-def compra():
+def purchase():
 
     if request.method == "GET":
         form = MovementForm()
@@ -50,18 +50,18 @@ def compra():
         if form.aceptar.data:
             if form.validate():
                 form = MovementForm(data=request.form)
-                db = SqliteManager(RUTA)
+                sqlite = SqliteManager(RUTA)
                 consulta = "INSERT INTO movimientos (date, time, moneda_from, cantidad_from, moneda_to, cantidad_to) VALUES (?,?,?,?,?,?)"
                 moneda_from = str(form.moneda_from.data)
                 moneda_to = str(form.moneda_to.data)
                 cantidad_from = float(cantidad_from)
-                form.date.data = date.today()
-                fecha = form.date.data
+                form.fecha.data = date.today()
+                fecha = form.fecha.data
                 form.hora.data = datetime.today().strftime("%H:%M:%S")
                 hora = form.hora.data
                 params = (fecha, hora, moneda_from,
                           cantidad_from, moneda_to, cantidad_to)
-                resultado = db.consultaConParametros(consulta, params)
+                resultado = sqlite.consultaConParametros(consulta, params)
 
                 if resultado:
                     flash("Movimiento actualizado correctamente", category="exito")
@@ -74,7 +74,7 @@ def compra():
                 return render_template("purchase.html", form=form, cantidad_to=cantidad_to, errores=["Ha fallado la validación de datos"])
 
         else:
-            return redirect(url_for("compra"))
+            return redirect(url_for("purchase"))
 
 
 @app.route("/status")

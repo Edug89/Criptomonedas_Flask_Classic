@@ -152,3 +152,14 @@ margin-top: 100;
   margin-left: 150;
   
 }
+
+.boton-consultar {
+  display: inline-block;
+  height: 65px;
+  padding: 0;
+  margin-right: 0;
+  width: 125px;
+  margin-left: 325;
+  margin-top: -80;
+
+}
