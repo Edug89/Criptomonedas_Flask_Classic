@@ -1,70 +1,105 @@
 import sqlite3
-from config import ORIGIN_DATA
+import requests
+from config import API_KEY
 
 #Está todas las funciones del copipaste pero falta filtrar y modificar
 
-def filas_to_diccionario(filas, columnas):
-    resultado = []
-    for fila in filas:
-        posicion_columna = 0
-        d = {}
-        for campo in columnas:
-            d[campo[0]] = fila[posicion_columna]
-            posicion_columna += 1
-        resultado.append(d)
+class SqliteManager:
+    def __init__(self, ruta):
+        self.ruta = ruta
 
-    return resultado
-#Consulta de movimientos
-def select_all():
-    conn = sqlite3.connect(ORIGIN_DATA)
-    cur = conn.cursor()
+    def consultaSQL(self, consulta):
+        conexion = sqlite3.connect(self.ruta)
+        cursor = conexion.cursor()
+        cursor.execute(consulta)
 
-    cur.execute("SELECT id, date, time, quantity_from, coin_to, quantity_to from movements order by date;")
+        self.movimientos = []
+        nombres_columnas = []
 
-    resultado = filas_to_diccionario(cur.fetchall(), cur.description)
+        for desc_columna in cursor.description:
+            nombres_columnas.append(desc_columna[0])
 
-    conn.close()
+        datos = cursor.fetchall()
+        for dato in datos:
+            movimiento = {}
+            indice = 0
+            for nombre in nombres_columnas:
+                movimiento[nombre] = dato[indice]
+                indice += 1
+            self.movimientos.append(movimiento)
+        conexion.close()
 
-    return resultado
+        return self.movimientos
+
+    def consultaConParametros(self, consulta, params):
+        conexion = sqlite3.connect(self.ruta)
+        cursor = conexion.cursor()
+        resultado = False
+        try:
+            cursor.execute(consulta, params)
+            conexion.commit()
+            resultado = True
+        except Exception as error:
+            print("ERROR SQULITE:", error)
+            conexion.rollback()
+        conexion.close()
+
+        return resultado
+
+    def consultar_saldo(self, consulta):
+        conexion = sqlite3.connect(self.ruta)
+        cursor = conexion.cursor()
+        cursor.execute(consulta)
+        datos = cursor.fetchone()
+        conexion.commit()
+        conexion.close()
+        return datos
+
+    def total_euros_invertidos(self, consulta):
+        conexion = sqlite3.connect(self.ruta)
+        cursor = conexion.cursor()
+        cursor.execute(consulta)
+        datos = cursor.fetchall()
+        conexion.commit()
+        conexion.close()
+        return datos
 
 
+class APIError(Exception):
+    def __init__(self, code):
+        if code == 400:
+            msg = "Algo ha fallado en la consulta, vuelva a intentarlo más tarde."
+        elif code == 401:
+            msg = "Sin autorización -- Revise si su API KEY es correcta."
+        elif code == 403:
+            msg = "No tienes suficientes privilegios para realizar la consulta."
+        elif code == 429:
+            msg = "Has excedido el número de consultas para tu API KEY. Póngase en contacto en www.coinapi.io."
+        elif code == 550:
+            msg = "No hay información para la consulta realizada.Revise la configuración e inténtelo más tarde."
+        else:
+            msg = "Ha ocurrido un error. Por favor revise su conexión a Internet e inténtelo de nuevo mas tarde."
+        super().__init__(msg)
 
-def select_by(id):
-    conn = sqlite3.connect(ORIGIN_DATA)
-    cur = conn.cursor()
 
-    cur.execute("SELECT id, date, concept, quantity from movements WHERE id = ?", (id,))
+class CriptoModel:
 
-    resultado = filas_to_diccionario(cur.fetchall(), cur.description)
- 
-    conn.close()
+    def __init__(self, origen, destino):
+        self.moneda_origen = origen
+        self.moneda_destino = destino
+        self.cambio = 0.0
 
-    if resultado:
-        return resultado[0]
-    return {}
+    def consultar_cambio(self):
+        cabeceras = {
+            "X-CoinAPI-Key": API_KEY
+        }
+        url = f"http://rest.coinapi.io/v1/exchangerate/{self.moneda_origen}/{self.moneda_destino}"
+        respuesta = requests.get(url, headers=cabeceras)
 
+        if respuesta.status_code == 200:
+            self.cambio = respuesta.json()["rate"]
+            return(self.cambio)
 
+        else:
+            raise APIError(respuesta.status_code)
 
-def insert(registro):
-    """
-    INSERT INTO movements (date, concept, quantity) values (?, ?, ?)
-
-    params:     cur.execute("INSERT INTO movements (date, concept, quantity) values (?, ?, ?)", ['2022-04-08', 'Cumple', -80])
-
-    conn.commit() antes de hacer el conn.close()
-    """
-    conn = sqlite3.connect(ORIGIN_DATA)
-    cur = conn.cursor()
-
-    cur.execute("INSERT INTO movements (date, concept, quantity) values (?, ?, ?);", registro)
-    conn.commit()
-    conn.close()
-
-def delete_by(id):
-    conn = sqlite3.connect(ORIGIN_DATA)
-    cur = conn.cursor()
-
-    cur.execute("DELETE FROM movements WHERE id = ?", (id,))
-
-    conn.commit()
-    conn.close()

@@ -12,27 +12,34 @@
                     <th>From</th>
                     <th>Q</th>
                     <th>To</th>
-                    <th>Q<th>
+                    <th>Q</th>
                     <th>P.U</th>
 
                 </tr>
             </thead>
             <tbody>
-                <!--Este for no aplica actualmente pero no da fallo grave-->
-            
-                {% for movement in data %}
+                {% if movements %}
+                {% for movement in movements %}
                 <tr>
                     <td>{{movement.date}}</td>
                     <td>{{movement.time}}</td>
-                    <td>{{movement.coin_from}}</td>
-                    <td>{{movement.quantity_from}}</td>
-                    <td>{{movement.coin_to}}</td>
-                    <td>{{movement.quantity_to}}</td>
-                    <td>{{movement.PU}}</td>
-                <!--Faltaría poner 8 decimales al quantity to y al PU-->
+                    <td>{{movement.moneda_from}}</td>
+                    <td>{{movement.cantidad_from}}</td>
+                    <td>{{movement.moneda_to}}</td>
+                    <td>{{"{:,.5f}".format(movement.cantidad_to)}}</td>
+                    <td>{{"{:,.5f}".format(movement.cantidad_from / movement.cantidad_to)}}</td>
+                
                 </tr>
-                {% endfor %} 
+                {% endfor %}
+                {% else%}
+                <tr>
+                    <td colspan="7" class="lista-vacia">NO HAY MOVIMIENTOS QUE MOSTRAR</td>
+                </tr>
+                {% endif %}
+                
+                
             </tbody>
+            
         </table>
         <a href="/status"><button class="boton_status"method="POST">Status</button></a>
         <a href="/purchase"><button class="cruz_añadir" method="POST">+</button></a>  

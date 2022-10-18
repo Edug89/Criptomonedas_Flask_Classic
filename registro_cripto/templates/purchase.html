@@ -7,25 +7,25 @@
     <div class = "h2">    
     <h2>COMPRA DE CRIPTOS</h2>
     </div>
-    <form action="/new" method="post">
+    <form action="/purchase" method="post">
             {{ form.csrf_token }}
 
         <div class="grid">
             <div class="coin_from">
-            {{ form.coin_from.label }}
-            {{ form.coin_from }}        
-            {% if form.coin_from.errors %}
-                {% for error in form.coin_from.errors %}
+            {{ form.moneda_from.label }}
+            {{ form.moneda_from }}        
+            {% if form.moneda_from.errors %}
+                {% for error in form.moneda_from.errors %}
                     <p class="error">{{ error }}</p>
                 {% endfor %}
             {% endif %}
             </div>
             
             <div class="coin_to">
-            {{ form.coin_to.label }}
-            {{ form.coin_to }}
-            {% if form.coin_to.errors %}
-                {% for error in form.coin_from.errors %}
+            {{ form.moneda_to.label }}
+            {{ form.moneda_to }}
+            {% if form.moneda_to.errors %}
+                {% for error in form.moneda_from.errors %}
                     <p class="error">{{ error }}</p>
                 {% endfor %}
             {% endif %}
@@ -34,26 +34,25 @@
 
         <div class="grid"> 
             <div class="quantity_from">
-            {{ form.quantity_from.label }}
-            {{ form.quantity_from }}
-            {% if form.quantity_from.errors %}
-                {% for error in form.quantity_from.errors %}
+            {{ form.cantidad_from.label }}
+            {{ form.cantidad_from }}
+            {% if form.cantidad_from.errors %}
+                {% for error in form.cantidad_from.errors %}
                     <p class="error">{{ error }}</p>
                 {% endfor %}
             {% endif %}
             </div> 
         
-            <div class="boton-consultar">
-                {{ form.consultar}}
-                </div>
-
 
             <div class="quantity_to">
                 <label for="cantidad_to">Q: </label>
                 <p class="paper-label"> {{ cantidad_to }}</p>
             </div>
         </div>
-
+        
+        <div class="boton-consultar">
+            {{ form.consultar}}
+            </div>
         
         <div class="grid">
             <div class="pu">
@@ -62,10 +61,16 @@
             
             </div>
 
+        <div class="boton-cancelar-comprar">
+                {{form.borrar }}
+            </div>
+    
+        <div class="boton-comprar">
+            {{ form.aceptar }}
+            </div>
+        
 
-        <a href="/"><button class="boton_cancelar"method="POST">X</button></a>
-        <a href="/"><button class="boton_validar" method="POST">V</button></a> 
-                
+     
     </form>
     </table>
 </article>
