@@ -5,20 +5,40 @@
     <div class = "h2">
         <h2>ESTADO DE TU INVERSION</h2>
 
-        <div class="status">    
-                    <label for="spent">Invertido:</label>
-                </div>
-                <div class="status">
-                    <label for="currentValue">Valor actual: </label>
-                </div>
+        {% if errores %}
+        <div class="lista-errores">
+          <p>
+            <ion-icon name="warning-sharp" class="icono-error"></ion-icon>
+          </p>
+          <div>
+            {% for error in errores %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
         
-        <a href="/"><button class="boton_volver"method="POST">Volver</button></a>
+        <form class="status" action="/purchase" method="GET">
+          <div class="grid">
+            Invertido: {{saldo_euros_invertidos}} 
+            
+          </div>
+          
+          <div class="grid">
+             Valor Actual: {{valor_actual}}
+            
+          </div>
+          
+          
+          <div class="boton_volver">
+              <a href="/" role="button">Volver</a>
+          </div>
+        
+        </form>
+
+</table>
 
 
-
-
-    </table>
-
-
-
+    
+    
 {% endblock %}

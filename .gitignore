@@ -4,3 +4,4 @@ config.py
 .env
 data/*.db
 data/*.sqlite
+.vscode/

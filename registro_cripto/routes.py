@@ -19,7 +19,7 @@ def index():
 
 
 @app.route("/purchase", methods=["GET", "POST"])
-def purchase():
+def mercado():
 
     if request.method == "GET":
         form = MovementForm()
@@ -78,11 +78,68 @@ def purchase():
                 return render_template("purchase.html", form=form, cantidad_to=cantidad_to, errores=["Ha fallado la validación de datos"])
 
         else:
-            return redirect(url_for("purchase"))
+            return redirect(url_for("mercado"))
 
 
-@app.route("/status")
-def status():
-    return render_template("status.html")
+@app.route("/status", methods=["GET"])
+def estado():
+    try:
+        sqlite = SqliteManager(RUTA)
+        euros_to = sqlite.consultar_saldo(
+            "SELECT sum(cantidad_to) FROM movimientos WHERE moneda_to='EUR'")
+        euros_to = euros_to[0]
+        if euros_to == None:
+            euros_to = 0
+        #poner euros_from a 0 para que no pete.
+        euros_from = sqlite.consultar_saldo(
+            "SELECT sum(cantidad_from) FROM movimientos WHERE moneda_from='EUR'")
+        euros_from = euros_from[0]
+        saldo_euros_invertidos = euros_to - euros_from
+        saldo_euros_invertidos = round(saldo_euros_invertidos, 6)
+        total_euros_ivertidos = euros_from
+
+        cripto_from = sqlite.total_euros_invertidos(
+            "SELECT moneda_from, sum(cantidad_from) FROM movimientos GROUP BY moneda_from")
+        totales_from = []
+        try:
+            suma_valor_from = 0
+            suma_valor_to = 0
+            for valor_from in cripto_from:
+                convertir = CriptoExchange(valor_from[0], "EUR")
+                valor = convertir.consultar_cambio()
+                valor = convertir.cambio
+                valor = float(valor)
+                valor = valor * valor_from[1]
+                valor = totales_from.append(valor)
+            suma_valor_from = sum(totales_from)
+
+            cripto_to = sqlite.total_euros_invertidos(
+                "SELECT moneda_to, sum(cantidad_to) FROM movimientos GROUP BY moneda_to")
+
+            totales_to = []
+
+            for valor_to in cripto_to:
+                convertir = CriptoExchange(valor_to[0], "EUR")
+                valor = convertir.consultar_cambio()
+                valor = convertir.cambio
+                valor = float(valor)
+                valor = valor * valor_to[1]
+                valor = totales_to.append(valor)
+
+            suma_valor_to = sum(totales_to)
+
+            inversion_atrapada = suma_valor_to - suma_valor_from
+            valor_actual = total_euros_ivertidos + \
+                saldo_euros_invertidos + inversion_atrapada
+            valor_actual = round(valor_actual, 8)
+            return render_template("status.html", euros_to=euros_to, euros_from=euros_from, saldo_euros_invertidos=saldo_euros_invertidos, valor_actual=valor_actual)
+        except APIError as error:
+            return render_template("status.html", errores=[error])
+    except:
+        flash("No hay movimientos en tu base de datos SQLITE, ahora mismo no podemos calcular",
+              category="fallo")
+        return render_template("status.html")
+
+
 
 
