@@ -75,6 +75,8 @@ class SqliteManager:
             return 0
         elif datos_ventas[0] == None:
             return datos_compras[0]
+        elif datos_compras[0] == None:
+            return 0
         else:
             return datos_compras[0] - datos_ventas[0]
 

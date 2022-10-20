@@ -40,10 +40,10 @@ def mercado():
             cantidad_to = float(round(cantidad_to, 8))
 
             saldo = SqliteManager(RUTA).calcular_saldo(moneda_from)
-            if moneda_from != 'EUR' and saldo < float(cantidad_from):
+            if moneda_from != "EUR" and saldo < float(cantidad_from):
                 flash("No tienes suficientes monedas {} ".format(moneda_from))
                 return render_template("purchase.html", form=form)
-            
+                
             if form.consultar.data:
                 return render_template("purchase.html", form=form, cantidad_to=cantidad_to, PU=PU)
 
@@ -90,10 +90,11 @@ def estado():
         euros_to = euros_to[0]
         if euros_to == None:
             euros_to = 0
-        #poner euros_from a 0 para que no pete.
         euros_from = sqlite.consultar_saldo(
             "SELECT sum(cantidad_from) FROM movimientos WHERE moneda_from='EUR'")
         euros_from = euros_from[0]
+        if euros_from == None:
+            euros_from = 0
         saldo_euros_invertidos = euros_to - euros_from
         saldo_euros_invertidos = round(saldo_euros_invertidos, 6)
         total_euros_ivertidos = euros_from
@@ -102,8 +103,7 @@ def estado():
             "SELECT moneda_from, sum(cantidad_from) FROM movimientos GROUP BY moneda_from")
         totales_from = []
         try:
-            suma_valor_from = 0
-            suma_valor_to = 0
+
             for valor_from in cripto_from:
                 convertir = CriptoExchange(valor_from[0], "EUR")
                 valor = convertir.consultar_cambio()
