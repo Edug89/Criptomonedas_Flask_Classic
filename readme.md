@@ -5,13 +5,13 @@ Aplicación web con la que podrás simular el registro la compra/venta de Cripto
 ## Instalación 
 Para un correcto funcionamiento de la app, sigue estos pasos:
 * **1. Clonar el repositorio**:
-```git clone ```
+```git clone https://github.com/Edug89/Criptomonedas_Flask_Classic.git``` 
 * **2. Creación y activación de entorno virtual**:
 ```python -m venv <nombre del entorno virtual>```
 # linux / macos
-```source ./<nombre del entorno virtual>/bin/activate```
+```.<nombre del entorno virtual>/bin/activate```
 # windows 
-```.\<nombre del entorno virtual>\Scripts\activate```
+```.<nombre del entorno virtual>\Scripts\activate```
 * **3. Instalación del entorno virtual**:
 ```pip install -r requirements.txt```
 * **4. Variables de entorno**:
@@ -22,6 +22,6 @@ Para un correcto funcionamiento de la app, sigue estos pasos:
 	Visitar la página [CoinAPI](https://www.coinapi.io/) para conseguir tu 	APIkey(	[obtener gratis aquí](https://www.coinapi.io/pricing?apikey))
 * **6. Creación de BBDD**:
 Descargar gestor de BBDD sqlite en el siguiente enlace: [sqlitebrowser](https://sqlitebrowser.org/dl/)
-Abrir el archivo ```registro_cripto/data/movimientos.sqlite```en el programa y ejecutarlo.
+Abrir el archivo ```registro_cripto/data/movimientos.sqlite```en el programa y ejecutarlo. ```estructura de la base de datos en el fichero create.sql```
 ## Ejecutar aplicacion 
-Escribir en la terminal ```flask run (En caso de que te de problemas el puerto que este ocupado inicar con flask run -p 5001)```
+Escribir en la terminal ```flask run(En caso de que te de problemas el puerto 5000 que indique estar ocupado inicar con flask run -p 5001)```

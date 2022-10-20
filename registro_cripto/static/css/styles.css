@@ -31,7 +31,7 @@ p.error {
 
 
 .number {
-    text-align: right;
+  text-align: right;
 }
 
 .return {
@@ -140,17 +140,8 @@ margin-top: 100;
   margin-left: 350;
   margin-top: 50;
   
-  }
-
-.status {
-  display: block;
-  max-width: 500px;
-  font-weight:lighter;
-  font-size: 1.0rem;
-  padding: 1.0rem;
-  margin-left: 150;
-  
 }
+
 
 .boton-consultar {
   display: inline-block;
