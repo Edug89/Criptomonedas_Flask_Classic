@@ -1,16 +1,14 @@
-
 from flask_wtf import FlaskForm
 from wtforms import DateField,FloatField, SubmitField,TimeField,HiddenField,SelectField
 from wtforms.validators import DataRequired,ValidationError,NumberRange
 
+monedas_disponibles = ["BTC", "EUR", "ETH", "LINK", "LUNA"]
 
 def validar_moneda(form,field):
     if field.data == form.moneda_from.data:
          raise ValidationError(message="Debes elegir diferentes tipos de moneda diferentes")
     
 
-
-           
 
 class MovementForm(FlaskForm):
     id = HiddenField()

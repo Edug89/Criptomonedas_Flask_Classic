@@ -4,6 +4,7 @@ from registro_cripto.models import CriptoExchange,SqliteManager,APIError
 from registro_cripto.forms import MovementForm
 from datetime import date,datetime
 
+
 RUTA = "data/movimientos.sqlite"
 
 @app.route("/")
@@ -11,7 +12,7 @@ def index():
     try:
         sqlite = SqliteManager(RUTA)
         movimientos = sqlite.consultaSQL("SELECT * FROM movimientos ORDER BY date")
-        return render_template("index.html",movements = movimientos)
+        return render_template("index.html",movements = movimientos, puntero = "index.html")
     except:
         flash("Base de datos no disponible,intentelo más tarde",
               category="fallo")
@@ -23,7 +24,7 @@ def mercado():
 
     if request.method == "GET":
         form = MovementForm()
-        return render_template("purchase.html", form=form)
+        return render_template("purchase.html", form=form, puntero="purchase.html")
     else:
         try:
             form = MovementForm(data=request.form)
@@ -95,13 +96,15 @@ def estado():
         euros_from = euros_from[0]
         if euros_from == None:
             euros_from = 0
-        saldo_euros_invertidos = euros_to - euros_from
-        saldo_euros_invertidos = round(saldo_euros_invertidos, 6)
-        total_euros_ivertidos = euros_from
+        saldo_euros_invertidos = euros_from - euros_to 
+        saldo_euros_invertidos = round(saldo_euros_invertidos, 8)
+        total_euros_invertidos = euros_from
+        recuperado = euros_to
 
         cripto_from = sqlite.total_euros_invertidos(
             "SELECT moneda_from, sum(cantidad_from) FROM movimientos GROUP BY moneda_from")
         totales_from = []
+       
         try:
 
             for valor_from in cripto_from:
@@ -125,21 +128,19 @@ def estado():
                 valor = float(valor)
                 valor = valor * valor_to[1]
                 valor = totales_to.append(valor)
-
             suma_valor_to = sum(totales_to)
-
+            
+            
             inversion_atrapada = suma_valor_to - suma_valor_from
-            valor_actual = total_euros_ivertidos + \
-                saldo_euros_invertidos + inversion_atrapada
+            valor_actual = saldo_euros_invertidos + total_euros_invertidos
             valor_actual = round(valor_actual, 8)
-            return render_template("status.html", euros_to=euros_to, euros_from=euros_from, saldo_euros_invertidos=saldo_euros_invertidos, valor_actual=valor_actual)
+            return render_template("status.html", euros_to=euros_to, euros_from=euros_from, total_euros_invertidos=total_euros_invertidos,\
+                saldo_euros_invertidos=saldo_euros_invertidos,recuperado=recuperado,inversion_atrapada=inversion_atrapada,valor_actual=valor_actual, puntero="status.html")
         except APIError as error:
             return render_template("status.html", errores=[error])
     except:
         flash("No hay movimientos en tu base de datos SQLITE, ahora mismo no podemos calcular",
-              category="fallo")
+            category="fallo")
         return render_template("status.html")
-
-
 
 

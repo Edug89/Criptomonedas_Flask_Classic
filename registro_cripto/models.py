@@ -39,7 +39,7 @@ class SqliteManager:
             conexion.commit()
             resultado = True
         except Exception as error:
-            print("ERROR SQULITE:", error)
+            print("ERROR SQLITE:", error)
             conexion.rollback()
         conexion.close()
 
@@ -80,6 +80,9 @@ class SqliteManager:
         else:
             return datos_compras[0] - datos_ventas[0]
 
+   
+    
+
 
 class APIError(Exception):
     def __init__(self, code):
@@ -99,7 +102,6 @@ class APIError(Exception):
 
 
 class CriptoExchange:
-
     def __init__(self, origen, destino):
         self.moneda_origen = origen
         self.moneda_destino = destino
@@ -119,3 +121,8 @@ class CriptoExchange:
         else:
             raise APIError(respuesta.status_code)
 
+
+class Saldo:
+    def __init__(self, moneda, saldo):
+        self.moneda = moneda
+        self.saldo = saldo

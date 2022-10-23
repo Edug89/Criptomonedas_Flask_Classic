@@ -17,7 +17,9 @@
     <nav class="container">
         <ul>
             <li>
-                <a href="/">Inicio</a> |
+                {% if puntero == "index.html" %}
+              
+                <span>Inicio</span> |         
             </li>
             <li>
                 <a href="/purchase">Compra</a> |
@@ -26,6 +28,42 @@
                 <a href="/status">Status</a>
             </li>
         </ul>
+        {% endif %}
+    </nav>
+
+    <nav class="container">
+        <ul>
+            <li>
+                {% if puntero == "purchase.html" %}
+
+                <a href="/">Inicio</a> |     
+            </li>
+            <li>
+                <span>Compra</span> |   
+            </li>
+            <li>
+                <a href="/status">Status</a>
+            </li>
+        </ul>
+        {% endif %}
+    </nav>
+
+    <nav class="container">
+        <ul>
+            <li>
+                {% if puntero == "status.html" %}
+
+                <a href="/">Inicio</a> |      
+            </li>
+            <li>
+                <a href="/purchase">Compra</a> |
+            </li>
+            <li>
+                <span>Status</span>  
+            </li>
+        </ul>
+
+        {% endif %}
     </nav>
 
     <section class="container">
