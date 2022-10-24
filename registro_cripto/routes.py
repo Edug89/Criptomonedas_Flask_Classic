@@ -1,6 +1,6 @@
 from registro_cripto import app
 from flask import render_template,request, redirect, url_for, flash
-from registro_cripto.models import CriptoExchange,SqliteManager,APIError
+from registro_cripto.models import CriptoExchange,SqliteManager,APIError,consultaValorActual
 from registro_cripto.forms import MovementForm
 from datetime import date,datetime
 
@@ -132,7 +132,7 @@ def estado():
             
             
             inversion_atrapada = suma_valor_to - suma_valor_from
-            valor_actual = saldo_euros_invertidos + total_euros_invertidos
+            valor_actual = consultaValorActual()
             valor_actual = round(valor_actual, 8)
             return render_template("status.html", euros_to=euros_to, euros_from=euros_from, total_euros_invertidos=total_euros_invertidos,\
                 saldo_euros_invertidos=saldo_euros_invertidos,recuperado=recuperado,inversion_atrapada=inversion_atrapada,valor_actual=valor_actual, puntero="status.html")

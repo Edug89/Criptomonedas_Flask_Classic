@@ -1,6 +1,6 @@
 import sqlite3
 import requests
-from config import API_KEY
+from config import API_KEY,ORIGIN_DATA
 
 
 class SqliteManager:
@@ -63,11 +63,11 @@ class SqliteManager:
         conexion.close()
         return datos
 
-    def calcular_saldo(self, moneda):
+    def calcular_saldo(self, monedas):
         consulta_compras = "SELECT sum(cantidad_to) FROM movimientos WHERE moneda_to = '" + \
-            moneda + "'"
+            monedas + "'"
         consulta_ventas = "SELECT sum(cantidad_from) FROM movimientos WHERE moneda_from = '" + \
-            moneda + "'"
+            monedas + "'"
 
         datos_compras = self.consultar_saldo(consulta_compras)
         datos_ventas = self.consultar_saldo(consulta_ventas)
@@ -79,10 +79,6 @@ class SqliteManager:
             return 0
         else:
             return datos_compras[0] - datos_ventas[0]
-
-   
-    
-
 
 class APIError(Exception):
     def __init__(self, code):
@@ -99,7 +95,6 @@ class APIError(Exception):
         else:
             msg = "Ha ocurrido un error. Por favor revise su conexión a Internet e inténtelo de nuevo mas tarde."
         super().__init__(msg)
-
 
 class CriptoExchange:
     def __init__(self, origen, destino):
@@ -121,8 +116,37 @@ class CriptoExchange:
         else:
             raise APIError(respuesta.status_code)
 
+    
 
-class Saldo:
-    def __init__(self, moneda, saldo):
-        self.moneda = moneda
-        self.saldo = saldo
+
+
+
+def consultaSaldoCripto(crypto):
+    cryptosMonedas = {}
+    conn= sqlite3.connect(ORIGIN_DATA)
+    cur = conn.cursor()
+    for moneda in crypto:
+        consulta = f"SELECT ((SELECT (case when (SUM(cantidad_to)) is null then 0 else SUM(cantidad_to) end) as tot FROM movimientos WHERE moneda_to = '{moneda}') - (SELECT (case when (SUM(cantidad_from)) is null then 0 else SUM(cantidad_from) end) as ee FROM movimientos WHERE moneda_from = '{moneda}')) AS {moneda}"
+        cur.execute(consulta)
+        fila =cur.fetchall() 
+        cryptosMonedas[moneda] = fila[0][0]  
+    conn.close()
+    
+    return cryptosMonedas
+
+
+def consultaValorActual():    
+    total = 0
+    monedas_disponibles = ["BTC", "EUR", "ETH", "LINK", "LUNA"]
+    monederoActual = consultaSaldoCripto(monedas_disponibles)
+    url = requests.get(f"https://rest.coinapi.io/v1/exchangerate/EUR?&apikey={API_KEY}")
+    resultado = url.json()
+
+    for a in monederoActual.keys():
+        for b in resultado['rates']:
+            if b['asset_id_quote'] == a:
+                total += 1/b['rate'] * monederoActual[a]
+                
+    return total
+
+
