@@ -32,14 +32,24 @@
           </div>
           
           <div class="grid">
-            <div class ="positivo"></div>
-            {% if valor_actual => 0 %}
 
             Valor Actual: {{valor_actual}}
+          </div>  
+          
+          <div class="grid">
+          {% if ganancia_perdida > 0 %}
 
+          <p> Ganancia / Perdida: <span id = ganancia>{{ ganancia_perdida }}</span></p>
+
+          {% elif ganancia_perdida == 0 %}
+          <p> Ganancia / Perdida: <span id = igual>{{ ganancia_perdida }}</span></p>
+
+          {% else %}
+          <p> Ganancia / Perdida: <span id = perdida>{{ ganancia_perdida }}</span></p>
+
+          {% endif %}
           </div>
-          
-          
+                   
           <div class="boton_volver">
               <a href="/" role="button">Volver</a>
           </div>
@@ -48,7 +58,4 @@
 
 </table>
 
-
-    
-    
 {% endblock %}

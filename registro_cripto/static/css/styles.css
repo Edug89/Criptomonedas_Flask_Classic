@@ -164,3 +164,15 @@ margin-top: 100;
     
 
 }
+
+#ganancia {
+  color: green;
+}
+
+#perdida {
+  color: red
+}
+
+#igual {
+  color: orange;
+}

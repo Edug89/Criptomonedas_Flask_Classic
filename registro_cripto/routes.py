@@ -134,8 +134,11 @@ def estado():
             inversion_atrapada = suma_valor_to - suma_valor_from
             valor_actual = consultaValorActual()
             valor_actual = round(valor_actual, 8)
+            ganancia_perdida = round(valor_actual - saldo_euros_invertidos,2)
+            
+
             return render_template("status.html", euros_to=euros_to, euros_from=euros_from, total_euros_invertidos=total_euros_invertidos,\
-                saldo_euros_invertidos=saldo_euros_invertidos,recuperado=recuperado,inversion_atrapada=inversion_atrapada,valor_actual=valor_actual, puntero="status.html")
+                saldo_euros_invertidos=saldo_euros_invertidos,recuperado=recuperado,inversion_atrapada=inversion_atrapada,valor_actual=valor_actual,ganancia_perdida=ganancia_perdida, puntero="status.html")
         except APIError as error:
             return render_template("status.html", errores=[error])
     except:
