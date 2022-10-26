@@ -37,17 +37,19 @@
           </div>  
           
           <div class="grid">
-          {% if ganancia_perdida > 0 %}
+            
+          {% if ganancia > 0 %}
 
-          <p> Ganancia / Perdida: <span id = ganancia>{{ ganancia_perdida }}</span></p>
+          <p> Ganancia / Perdida: <span id = ganancia>{{ ganancia }}</span></p>
 
-          {% elif ganancia_perdida == 0 %}
-          <p> Ganancia / Perdida: <span id = igual>{{ ganancia_perdida }}</span></p>
+          {% elif ganancia == 0 %}
+          <p> Ganancia / Perdida: <span id = igual>{{ ganancia }}</span></p>
 
           {% else %}
-          <p> Ganancia / Perdida: <span id = perdida>{{ ganancia_perdida }}</span></p>
+          <p> Ganancia / Perdida: <span id = perdida>{{ ganancia }}</span></p>
 
           {% endif %}
+          
           </div>
                    
           <div class="boton_volver">

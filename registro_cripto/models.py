@@ -115,11 +115,7 @@ class CriptoExchange:
 
         else:
             raise APIError(respuesta.status_code)
-
     
-
-
-
 
 def consultaSaldoCripto(crypto):
     cryptosMonedas = {}
@@ -137,9 +133,13 @@ def consultaSaldoCripto(crypto):
 
 def consultaValorActual():    
     total = 0
-    monedas_disponibles = ["BTC", "EUR", "ETH", "LINK", "LUNA"]
+    monedas_disponibles = ["BTC", "EUR", "ETH", "XRP", "SOL","BNB","ADA","DOT","USDT","MATIC"]
     monederoActual = consultaSaldoCripto(monedas_disponibles)
     url = requests.get(f"https://rest.coinapi.io/v1/exchangerate/EUR?&apikey={API_KEY}")
+    
+    if url.status_code != 200:
+        raise APIError(url.status_code)
+    
     resultado = url.json()
 
     for a in monederoActual.keys():

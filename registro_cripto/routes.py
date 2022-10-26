@@ -5,6 +5,7 @@ from registro_cripto.forms import MovementForm
 from datetime import date,datetime
 
 
+
 RUTA = "data/movimientos.sqlite"
 
 @app.route("/")
@@ -13,10 +14,13 @@ def index():
         sqlite = SqliteManager(RUTA)
         movimientos = sqlite.consultaSQL("SELECT * FROM movimientos ORDER BY date")
         return render_template("index.html",movements = movimientos, puntero = "index.html")
+        
     except:
         flash("Base de datos no disponible,intentelo más tarde",
               category="fallo")
         return render_template("index.html")
+
+     
 
 
 @app.route("/purchase", methods=["GET", "POST"])
@@ -134,13 +138,15 @@ def estado():
             inversion_atrapada = suma_valor_to - suma_valor_from
             valor_actual = consultaValorActual()
             valor_actual = round(valor_actual, 8)
-            ganancia_perdida = round(valor_actual - saldo_euros_invertidos,2)
+            ganancia = round(valor_actual - saldo_euros_invertidos,2)
             
 
             return render_template("status.html", euros_to=euros_to, euros_from=euros_from, total_euros_invertidos=total_euros_invertidos,\
-                saldo_euros_invertidos=saldo_euros_invertidos,recuperado=recuperado,inversion_atrapada=inversion_atrapada,valor_actual=valor_actual,ganancia_perdida=ganancia_perdida, puntero="status.html")
+                saldo_euros_invertidos=saldo_euros_invertidos,recuperado=recuperado,inversion_atrapada=inversion_atrapada,valor_actual=valor_actual,ganancia=ganancia,puntero="status.html")
         except APIError as error:
-            return render_template("status.html", errores=[error])
+            flash("Error en la consulta de STATUS con el servidor (API)",
+            category="fallo")
+            return redirect(url_for("index"))
     except:
         flash("No hay movimientos en tu base de datos SQLITE, ahora mismo no podemos calcular",
             category="fallo")
