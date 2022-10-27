@@ -13,7 +13,7 @@ Si es windows```python -m venv <nombre del entorno virtual>``` y si es mac/linux
 # windows 
 ```.<nombre del entorno virtual>\Scripts\activate```
 
-* **3. Instalación del entorno virtual**:
+* **3. Instalación carpeta requirements**:
 ```pip install -r requirements.txt```
 
 * **4. Variables de entorno**:
