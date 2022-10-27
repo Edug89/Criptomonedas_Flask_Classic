@@ -143,10 +143,10 @@ def estado():
 
             return render_template("status.html", euros_to=euros_to, euros_from=euros_from, total_euros_invertidos=total_euros_invertidos,\
                 saldo_euros_invertidos=saldo_euros_invertidos,recuperado=recuperado,inversion_atrapada=inversion_atrapada,valor_actual=valor_actual,ganancia=ganancia,puntero="status.html")
-        except APIError as error:
+        except APIError:
             flash("Error en la consulta de STATUS con el servidor (API)",
             category="fallo")
-            return redirect(url_for("index"))
+            return render_template("status.html")
     except:
         flash("No hay movimientos en tu base de datos SQLITE, ahora mismo no podemos calcular",
             category="fallo")
